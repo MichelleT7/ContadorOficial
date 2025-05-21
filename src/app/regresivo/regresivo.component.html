@@ -1,0 +1,44 @@
+<div class="countdown-container">
+  <h1>Cuenta regresiva para la boda</h1>
+  
+  <div class="date-range">
+    {{ getFormattedCurrentDate() }} - {{ getFormattedWeddingDate() }}
+  </div>
+  
+  <div class="countdown-display">
+    <div class="time-block">
+      <span class="time-value">{{ days }}</span>
+      <span class="time-label">Días</span>
+    </div>
+    <div class="time-block">
+      <span class="time-value">{{ hours | number:'2.0-0' }}</span>
+      <span class="time-label">Horas</span>
+    </div>
+    <div class="time-block">
+      <span class="time-value">{{ minutes | number:'2.0-0' }}</span>
+      <span class="time-label">Minutos</span>
+    </div>
+    <div class="time-block">
+      <span class="time-value">{{ seconds | number:'2.0-0' }}</span>
+      <span class="time-label">Segundos</span>
+    </div>
+  </div>
+
+  <div class="petal-container">
+  <div 
+    class="petal" 
+    *ngFor="let petal of petals"
+    [ngStyle]="{
+      left: petal.left + '%',
+      animationDelay: petal.delay + 's',
+      animationDuration: petal.duration + 's'
+    }"
+  ></div>
+</div>
+
+  
+  <div class="message">
+    ¡Faltan solo {{ days }} días para el gran día!
+  </div>
+</div>
+
