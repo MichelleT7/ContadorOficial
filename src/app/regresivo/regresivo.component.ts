@@ -11,6 +11,8 @@ import confetti from 'canvas-confetti';
 })
 export class RegresivoComponent implements OnInit, OnDestroy {
 
+  petals = Array.from({ length: 30 }, (_, i) => i);
+
   days: number = 0;
   hours: number = 0;
   minutes: number = 0;
@@ -19,7 +21,13 @@ export class RegresivoComponent implements OnInit, OnDestroy {
 
   weddingDate: Date = new Date('2025-06-29T00:00:00');
 
+  // Arrays para posiciones y tiempos aleatorios de pétalos
+  private petalPositions: number[] = [];
+  private petalDelays: number[] = [];
+  private petalDurations: number[] = [];
+
   ngOnInit(): void {
+    this.initializePetalAnimations();
     this.startCountdown();
     this.launchConfetti();
   }
@@ -30,6 +38,25 @@ export class RegresivoComponent implements OnInit, OnDestroy {
     }
   }
 
+  private initializePetalAnimations(): void {
+    // Generar posiciones y tiempos aleatorios para cada pétalo
+    this.petalPositions = this.petals.map(() => Math.random() * 100);
+    this.petalDelays = this.petals.map(() => Math.random() * 5);
+    this.petalDurations = this.petals.map(() => 3 + Math.random() * 4);
+  }
+
+  getRandomPosition(index: number): number {
+    return this.petalPositions[index] || Math.random() * 100;
+  }
+
+  getRandomDelay(index: number): number {
+    return this.petalDelays[index] || Math.random() * 5;
+  }
+
+  getRandomDuration(index: number): number {
+    return this.petalDurations[index] || 3 + Math.random() * 4;
+  }
+
   startCountdown(): void {
     this.intervalId = setInterval(() => {
       this.updateCountdown();
@@ -38,7 +65,7 @@ export class RegresivoComponent implements OnInit, OnDestroy {
   }
 
   updateCountdown(): void {
-    const now = new Date(); // ✅ Usa la hora actual del sistema
+    const now = new Date();
     const diff = this.weddingDate.getTime() - now.getTime();
 
     if (diff <= 0) {
@@ -53,30 +80,29 @@ export class RegresivoComponent implements OnInit, OnDestroy {
     this.seconds = Math.floor((diff % (1000 * 60)) / 1000);
   }
 
-launchConfetti(): void {
-  const duration = 7 * 1000;
-  const animationEnd = Date.now() + duration;
+  launchConfetti(): void {
+    const duration = 7 * 1000;
+    const animationEnd = Date.now() + duration;
 
-  const interval = setInterval(() => {
-    confetti({
-      particleCount: 25,
-      angle: 60,
-      spread: 55,
-      origin: { x: 0 },
-    });
-    confetti({
-      particleCount: 25,
-      angle: 120,
-      spread: 55,
-      origin: { x: 1 },
-    });
+    const interval = setInterval(() => {
+      confetti({
+        particleCount: 25,
+        angle: 60,
+        spread: 55,
+        origin: { x: 0 },
+      });
+      confetti({
+        particleCount: 25,
+        angle: 120,
+        spread: 55,
+        origin: { x: 1 },
+      });
 
-    if (Date.now() > animationEnd) {
-      clearInterval(interval);
-    }
-  }, 250);
-}
-
+      if (Date.now() > animationEnd) {
+        clearInterval(interval);
+      }
+    }, 250);
+  }
 
   getFormattedWeddingDate(): string {
     return this.weddingDate.toLocaleDateString('es-ES', {
@@ -85,17 +111,6 @@ launchConfetti(): void {
       year: 'numeric'
     });
   }
-
-  petals = Array.from({ length: 70 }, () => ({
-  left: Math.random() * 100,
-  delay: Math.random() * 10,
-  duration: 10 + Math.random() * 10
-}));
-
-  
-
-
-
 
   getFormattedCurrentDate(): string {
     return new Date().toLocaleDateString('es-ES', {

@@ -1,44 +1,68 @@
 <div class="countdown-container">
-  <h1>Cuenta regresiva para la boda</h1>
-  
-  <div class="date-range">
-    {{ getFormattedCurrentDate() }} - {{ getFormattedWeddingDate() }}
-  </div>
-  
-  <div class="countdown-display">
-    <div class="time-block">
-      <span class="time-value">{{ days }}</span>
-      <span class="time-label">Días</span>
-    </div>
-    <div class="time-block">
-      <span class="time-value">{{ hours | number:'2.0-0' }}</span>
-      <span class="time-label">Horas</span>
-    </div>
-    <div class="time-block">
-      <span class="time-value">{{ minutes | number:'2.0-0' }}</span>
-      <span class="time-label">Minutos</span>
-    </div>
-    <div class="time-block">
-      <span class="time-value">{{ seconds | number:'2.0-0' }}</span>
-      <span class="time-label">Segundos</span>
+  <!-- Pétalos de rosa cayendo -->
+  <div class="petals-container">
+    <div 
+      *ngFor="let petal of petals; let i = index" 
+      class="petal"
+      [style.left.%]="getRandomPosition(i)"
+      [style.animation-delay.s]="getRandomDelay(i)"
+      [style.animation-duration.s]="getRandomDuration(i)">
+      <div class="petal-shape">
+        <div class="petal-part petal-top-left"></div>
+        <div class="petal-part petal-top-right"></div>
+        <div class="petal-part petal-bottom-left"></div>
+        <div class="petal-part petal-bottom-right"></div>
+        <div class="petal-center"></div>
+      </div>
     </div>
   </div>
 
-  <div class="petal-container">
-  <div 
-    class="petal" 
-    *ngFor="let petal of petals"
-    [ngStyle]="{
-      left: petal.left + '%',
-      animationDelay: petal.delay + 's',
-      animationDuration: petal.duration + 's'
-    }"
-  ></div>
+  <!-- Contenido principal -->
+  <div class="main-content">
+    <div class="header">
+      <h1 class="title">💕 Cuenta Regresiva 💕</h1>
+      <p class="subtitle">Boda de Pablo</p>
+      <p class="wedding-date">{{ getFormattedWeddingDate() }}</p>
+    </div>
+
+    <!-- Contador con números inclinados -->
+    <div class="countdown-grid">
+      <div class="time-unit">
+        <div class="time-card">
+          <div class="time-number skewed-number">{{ days.toString().padStart(2, '0') }}</div>
+          <div class="time-label">Días</div>
+        </div>
+      </div>
+
+      <div class="time-unit">
+        <div class="time-card">
+          <div class="time-number skewed-number">{{ hours.toString().padStart(2, '0') }}</div>
+          <div class="time-label">Horas</div>
+        </div>
+      </div>
+
+      <div class="time-unit">
+        <div class="time-card">
+          <div class="time-number skewed-number">{{ minutes.toString().padStart(2, '0') }}</div>
+          <div class="time-label">Minutos</div>
+        </div>
+      </div>
+
+      <div class="time-unit">
+        <div class="time-card">
+          <div class="time-number skewed-number">{{ seconds.toString().padStart(2, '0') }}</div>
+          <div class="time-label">Segundos</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <p class="info-text">
+        <span class="info-label">Hoy:</span> {{ getFormattedCurrentDate() }}
+      </p>
+      <p class="info-text">
+        <span class="info-label">Faltan:</span> {{ days }} días para el gran día
+      </p>
+    </div>
+  </div>
 </div>
-
-  
-  <div class="message">
-    ¡Faltan solo {{ days }} días para el gran día!
-  </div>
-</div>
-
