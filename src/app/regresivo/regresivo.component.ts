@@ -1,11 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import confetti from 'canvas-confetti';
+import { VistaComponent } from '../vista/vista.component';
+
 
 @Component({
   selector: 'app-regresivo',
   standalone: true,              
-  imports: [CommonModule],     
+  imports: [CommonModule, VistaComponent], 
   templateUrl: './regresivo.component.html',
   styleUrls: ['./regresivo.component.css']   
 })
@@ -18,8 +20,10 @@ export class RegresivoComponent implements OnInit, OnDestroy {
   minutes: number = 0;
   seconds: number = 0;
   private intervalId: any;
+  cuentaFinalizada: boolean = false;
 
-  weddingDate: Date = new Date('2025-06-29T00:00:00');
+
+  weddingDate: Date = new Date('2025-06-18T11:00:00');
 
   // Arrays para posiciones y tiempos aleatorios de pétalos
   private petalPositions: number[] = [];
@@ -69,10 +73,12 @@ export class RegresivoComponent implements OnInit, OnDestroy {
     const diff = this.weddingDate.getTime() - now.getTime();
 
     if (diff <= 0) {
-      this.days = this.hours = this.minutes = this.seconds = 0;
-      clearInterval(this.intervalId);
-      return;
+    this.days = this.hours = this.minutes = this.seconds = 0;
+    clearInterval(this.intervalId);
+    this.cuentaFinalizada = true; 
+    return;
     }
+
 
     this.days = Math.floor(diff / (1000 * 60 * 60 * 24));
     this.hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -120,3 +126,4 @@ export class RegresivoComponent implements OnInit, OnDestroy {
     });
   }
 }
+
