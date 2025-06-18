@@ -23,7 +23,7 @@ export class RegresivoComponent implements OnInit, OnDestroy {
   cuentaFinalizada: boolean = false;
 
 
-  weddingDate: Date = new Date('2025-06-18T11:00:00');
+  weddingDate: Date = new Date('2025-06-29T11:00:00');
 
   // Arrays para posiciones y tiempos aleatorios de pétalos
   private petalPositions: number[] = [];
